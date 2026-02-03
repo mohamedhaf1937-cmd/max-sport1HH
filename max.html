@@ -1,0 +1,665 @@
+import { useEffect, useState } from "react";
+
+const HERO_BG =
+  "https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=1950&q=80";
+
+type Product = {
+  id: number;
+  name: string;
+  price: string;
+  originalPrice?: string;
+  badge?: string;
+  image: string;
+};
+
+const PRODUCTS: Product[] = [
+  {
+    id: 1,
+    name: "Real Madrid 2026 Home Jersey",
+    price: "250 DH",
+    badge: "NEW",
+    image: "RMCFMZ0905_01.webp",
+  },
+  {
+    id: 2,
+    name: "FC Barcelona 2026 Home Jersey",
+    price: "250 DH",
+    image: "maillot-fc-barcelone-domicile-2025-202620251212164053693c3785847d2.jpg",
+  },
+  {
+    id: 3,
+    name: "Morocco 2026 Jersey",
+    price: "200 DH",
+    originalPrice: "250 DH",
+    badge: "-20% SALE",
+    image: "28.webp",
+  },
+  {
+    id: 4,
+    name: "Manchester City 2026 Tracksuit",
+    price: "450 DH",
+    image: "10.png",
+  },
+  {
+    id: 5,
+    name: "Bayern Munich 2026 Jersey",
+    price: "200 DH",
+    originalPrice: "250 DH",
+    image: "bc.jpg",
+  },
+  {
+    id: 6,
+    name: "Paris Saint-Germain 2026 Home Jersey",
+    price: "200 DH",
+    originalPrice: "250 DH",
+    image: "psg-nike-home-stadium-shirt-2025-26_ss5_p-202333088+pv-2+u-0l5g5cgim1ikkcuoqp61+v-kubcmmwa6ivfruwd4ydz.jpg",
+  },
+  {
+    id: 7,
+    name: "Wydad 2026 Home Jersey (Red)",
+    price: "200 DH",
+    originalPrice: "250 DH",
+    image: "Rectangle2039658-14 (2).webp",
+  },
+  {
+    id: 8,
+    name: "Wydad 2026 Home Jersey (White)",
+    price: "200 DH",
+    originalPrice: "250 DH",
+    image: "wydad1.jpg",
+  },
+  {
+    id: 9,
+    name: "Raja 2026 Home Jersey",
+    price: "200 DH",
+    originalPrice: "250 DH",
+    image: "raja 26.jpg",
+  },
+  {
+    id: 10,
+    name: "Manchester City 2026 Home Jersey",
+    price: "200 DH",
+    originalPrice: "250 DH",
+    image: "RMCFMZ0905_01.webp",
+  },
+];
+
+const CLUB_LOGOS = [
+  {
+    alt: "Real Madrid",
+    src: "https://upload.wikimedia.org/wikipedia/en/5/56/Real_Madrid_CF.svg",
+  },
+  {
+    alt: "FC Barcelona",
+    src: "https://upload.wikimedia.org/wikipedia/en/4/47/FC_Barcelona_%28crest%29.svg",
+  },
+  {
+    alt: "Manchester City",
+    src: "https://upload.wikimedia.org/wikipedia/en/e/eb/Manchester_City_FC_badge.svg",
+  },
+  {
+    alt: "Paris Saint-Germain",
+    src: "https://upload.wikimedia.org/wikipedia/en/a/a7/Paris_Saint-Germain_F.C..svg",
+  },
+  {
+    alt: "Bayern Munich",
+    src: "https://upload.wikimedia.org/wikipedia/commons/1/1b/FC_Bayern_M%C3%BCnchen_logo_%282017%29.svg",
+  },
+  {
+    alt: "Wydad Athletic Club",
+    src: "https://upload.wikimedia.org/wikipedia/fr/9/96/Logo_Wydad_Athletic_Club.png",
+  },
+  {
+    alt: "Raja Club Athletic",
+    src: "LOGO_RAJA_VB1.png",
+  },
+];
+
+const WHATSAPP_NUMBER = "212600000000"; // replace with real number
+
+export function App() {
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
+
+  // Close modal on ESC
+  useEffect(() => {
+    function handleKey(e: KeyboardEvent) {
+      if (e.key === "Escape") setIsModalOpen(false);
+    }
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, []);
+
+  const openOrder = (productName: string) => {
+    setSelectedProduct(productName);
+    setIsModalOpen(true);
+  };
+
+  const closeOrder = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    if (!selectedProduct) return;
+
+    const formData = new FormData(e.currentTarget);
+    const size = formData.get("size");
+    const fullName = formData.get("fullName");
+    const phone = formData.get("phone");
+    const city = formData.get("city");
+
+    const message =
+      `New order from Max Sport website:%0A` +
+      `Product: ${selectedProduct}%0A` +
+      `Size: ${size}%0A` +
+      `Name: ${fullName}%0A` +
+      `Phone: ${phone}%0A` +
+      `City: ${city}`;
+
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${message}`;
+    window.open(url, "_blank");
+    setIsModalOpen(false);
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-50 text-slate-900" id="home">
+      {/* Header */}
+      <header className="fixed inset-x-0 top-0 z-40 bg-neutral-950/95 text-white shadow-lg shadow-black/30 backdrop-blur">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3 md:px-6">
+          <a href="#home" className="flex items-center gap-2">
+            <span className="text-2xl font-black tracking-[0.25em]" style={{ fontFamily: "Oswald, system-ui, sans-serif" }}>
+              MAX
+              <span className="text-emerald-500">SPORT</span>
+            </span>
+          </a>
+
+          <nav className="hidden items-center gap-8 text-sm font-semibold uppercase tracking-wide md:flex">
+            <a href="#home" className="hover:text-emerald-400">
+              Home
+            </a>
+            <a href="#products" className="hover:text-emerald-400">
+              Shop
+            </a>
+            <a href="#clubs" className="hover:text-emerald-400">
+              Clubs
+            </a>
+            <a href="#about" className="hover:text-emerald-400">
+              About
+            </a>
+            <a href="#contact" className="hover:text-emerald-400">
+              Contact
+            </a>
+          </nav>
+
+          <div className="hidden items-center gap-4 md:flex">
+            <select className="rounded-md border border-neutral-700 bg-transparent px-2 py-1 text-xs uppercase tracking-wide">
+              <option value="en">EN</option>
+              <option value="fr">FR</option>
+              <option value="ar">AR</option>
+            </select>
+            <a
+              href="#products"
+              className="rounded-full bg-emerald-600 px-4 py-2 text-xs font-bold uppercase tracking-wide text-white shadow-md shadow-emerald-500/40 transition hover:bg-emerald-500 hover:shadow-lg hover:shadow-emerald-500/50"
+            >
+              Order Now
+            </a>
+          </div>
+
+          <button
+            className="inline-flex items-center justify-center rounded-md p-2 text-xl md:hidden"
+            onClick={() => setIsMobileNavOpen((v) => !v)}
+            aria-label="Toggle navigation"
+          >
+            <i className="fas fa-bars" />
+          </button>
+        </div>
+
+        {isMobileNavOpen && (
+          <div className="border-t border-neutral-800 bg-neutral-950 px-4 pb-4 pt-2 md:hidden">
+            <nav className="flex flex-col gap-2 text-sm font-semibold uppercase tracking-wide">
+              {["Home", "Shop", "Clubs", "About", "Contact"].map((label) => {
+                const id = label.toLowerCase();
+                return (
+                  <a
+                    key={id}
+                    href={`#${id === "shop" ? "products" : id}`}
+                    className="rounded-md px-2 py-1 hover:bg-neutral-800"
+                    onClick={() => setIsMobileNavOpen(false)}
+                  >
+                    {label}
+                  </a>
+                );
+              })}
+            </nav>
+          </div>
+        )}
+      </header>
+
+      {/* Hero */}
+      <section
+        className="relative flex min-h-screen items-center justify-center bg-black pt-20 text-center text-white"
+        style={{ fontFamily: "Montserrat, system-ui, sans-serif" }}
+      >
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.8)), url(${HERO_BG})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/40 to-black/60" />
+
+        <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center px-4 md:px-6">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-300">
+            Premium Football Jerseys – Cash on Delivery in Morocco
+          </p>
+          <h1
+            className="mb-4 text-4xl font-black uppercase tracking-tight drop-shadow-xl md:text-5xl lg:text-6xl"
+            style={{ fontFamily: "Oswald, system-ui, sans-serif" }}
+          >
+            Wear the Glory
+          </h1>
+          <p className="mb-8 text-base text-slate-100 md:text-lg">
+            Official-inspired kits from the biggest European and Moroccan clubs. Premium quality, modern designs and fast
+            delivery to every city in Morocco.
+          </p>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <a
+              href="#products"
+              className="rounded-full bg-emerald-600 px-8 py-3 text-sm font-bold uppercase tracking-wide text-white shadow-lg shadow-emerald-500/40 transition hover:-translate-y-0.5 hover:bg-emerald-500 hover:shadow-emerald-500/60"
+            >
+              View 2026 Collection
+            </a>
+            <a
+              href={`https://wa.me/${WHATSAPP_NUMBER}`}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-full border border-white/40 bg-white/10 px-6 py-3 text-xs font-semibold uppercase tracking-wide text-white backdrop-blur transition hover:bg-white/20"
+            >
+              <i className="fab fa-whatsapp text-lg text-emerald-400" />
+              Chat on WhatsApp
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Clubs bar */}
+      <section id="clubs" className="bg-neutral-950 py-6">
+        <div className="relative overflow-hidden">
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-neutral-950 to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-neutral-950 to-transparent" />
+
+          <div className="flex animate-[marquee_25s_linear_infinite] whitespace-nowrap will-change-transform">
+            {[...CLUB_LOGOS, ...CLUB_LOGOS].map((logo, i) => (
+              <div key={i} className="mx-10 inline-flex items-center">
+                <img
+                  src={logo.src}
+                  alt={logo.alt}
+                  className="h-12 w-auto grayscale transition hover:grayscale-0"
+                  loading="lazy"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Products */}
+      <section id="products" className="bg-slate-50 px-4 py-16 md:px-6 lg:py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-10 text-center">
+            <h2
+              className="mb-3 text-3xl font-bold uppercase tracking-tight text-neutral-900 md:text-4xl"
+              style={{ fontFamily: "Oswald, system-ui, sans-serif" }}
+            >
+              Our <span className="border-b-4 border-emerald-500 text-emerald-700">Best Sellers</span>
+            </h2>
+            <p className="text-sm text-slate-600 md:text-base">
+              Hand-picked jerseys from Real Madrid, Barcelona, Manchester City, PSG, Bayern and the biggest Moroccan clubs.
+            </p>
+          </div>
+
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {PRODUCTS.map((product) => (
+              <div
+                key={product.id}
+                className="group relative flex flex-col overflow-hidden rounded-xl bg-white shadow-md shadow-slate-200 transition hover:-translate-y-1 hover:shadow-xl"
+              >
+                {product.badge && (
+                  <span className="absolute left-3 top-3 rounded bg-amber-400 px-2 py-1 text-xs font-black uppercase tracking-wide text-neutral-900 shadow">
+                    {product.badge}
+                  </span>
+                )}
+
+                <div className="relative aspect-[4/5] w-full overflow-hidden bg-slate-100">
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                </div>
+
+                <div className="flex flex-1 flex-col items-stretch px-4 pb-4 pt-3 text-center">
+                  <h3 className="mb-1 text-sm font-semibold text-neutral-900 md:text-base">
+                    {product.name}
+                  </h3>
+                  <div className="mb-3 flex items-center justify-center gap-2 text-sm">
+                    <span className="text-lg font-black text-emerald-700">{product.price}</span>
+                    {product.originalPrice && (
+                      <span className="text-xs text-slate-400 line-through">{product.originalPrice}</span>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => openOrder(product.name)}
+                    className="mt-auto inline-flex w-full items-center justify-center rounded-md bg-neutral-900 px-3 py-2 text-xs font-bold uppercase tracking-wide text-white shadow-sm transition hover:bg-emerald-700"
+                  >
+                    Order Now
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* About section */}
+      <section
+        id="about"
+        className="bg-white px-4 py-16 md:px-6 lg:py-20"
+        style={{ fontFamily: "Montserrat, system-ui, sans-serif" }}
+      >
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-10 md:flex-row">
+          <div className="flex-1">
+            <img
+              src="gpt-image-1.5_b_logo_MX (1).png"
+              alt="Max Sport brand illustration"
+              className="mx-auto w-3/4 max-w-md rounded-xl shadow-md shadow-slate-300"
+            />
+          </div>
+          <div className="flex-1">
+            <h2
+              className="mb-3 text-3xl font-bold uppercase tracking-tight text-neutral-900 md:text-4xl"
+              style={{ fontFamily: "Oswald, system-ui, sans-serif" }}
+            >
+              Who is <span className="text-emerald-700">Max Sport?</span>
+            </h2>
+            <p className="mb-4 text-sm leading-relaxed text-slate-700 md:text-base">
+              Founded on January 1st, 2026, Max Sport is a Moroccan brand dedicated to football gear and apparel. We are
+              becoming a reference for players and fans who want quality, style and comfort at a fair price.
+            </p>
+            <p className="mb-4 text-sm leading-relaxed text-slate-700 md:text-base">
+              We carefully select jerseys and equipment inspired by the world&apos;s greatest clubs so that every customer can
+              wear modern, high-performance products. Our mission is to make the passion for football accessible to
+              everyone through authentic products, competitive prices and reliable customer service.
+            </p>
+            <ul className="space-y-2 text-sm text-slate-800 md:text-base">
+              <li className="flex items-start gap-2">
+                <i className="mt-0.5 text-emerald-600 fas fa-check-circle" />
+                <span>Fast delivery anywhere in Morocco.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <i className="mt-0.5 text-emerald-600 fas fa-check-circle" />
+                <span>Cash-on-delivery payment for every order.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <i className="mt-0.5 text-emerald-600 fas fa-check-circle" />
+                <span>Carefully checked quality on each product.</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer id="contact" className="bg-neutral-950 px-4 pb-8 pt-12 text-sm text-slate-300 md:px-6">
+        <div className="mx-auto max-w-6xl">
+          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            <div>
+              <h3
+                className="mb-3 text-lg font-semibold text-white"
+                style={{ fontFamily: "Oswald, system-ui, sans-serif" }}
+              >
+                Max Sport
+              </h3>
+              <p className="text-sm text-slate-400">
+                Your No.1 destination for football jerseys and sportswear in Morocco.
+              </p>
+              <div className="mt-4 flex gap-3">
+                <a
+                  href="https://instagram.com/max.sport.2026"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-neutral-800 text-white transition hover:bg-emerald-600"
+                >
+                  <i className="fab fa-instagram" />
+                </a>
+                <a
+                  href="#"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-neutral-800 text-white transition hover:bg-emerald-600"
+                >
+                  <i className="fab fa-facebook-f" />
+                </a>
+                <a
+                  href="#"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-neutral-800 text-white transition hover:bg-emerald-600"
+                >
+                  <i className="fab fa-tiktok" />
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <h3
+                className="mb-3 text-lg font-semibold text-white"
+                style={{ fontFamily: "Oswald, system-ui, sans-serif" }}
+              >
+                Quick Links
+              </h3>
+              <ul className="space-y-2 text-sm text-slate-400">
+                <li>
+                  <a href="#home" className="hover:text-emerald-400">
+                    Home
+                  </a>
+                </li>
+                <li>
+                  <a href="#products" className="hover:text-emerald-400">
+                    New Arrivals
+                  </a>
+                </li>
+                <li>
+                  <a href="#about" className="hover:text-emerald-400">
+                    About Us
+                  </a>
+                </li>
+                <li>
+                  <a href="#" className="hover:text-emerald-400">
+                    Return Policy
+                  </a>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3
+                className="mb-3 text-lg font-semibold text-white"
+                style={{ fontFamily: "Oswald, system-ui, sans-serif" }}
+              >
+                Contact
+              </h3>
+              <ul className="space-y-2 text-sm text-slate-400">
+                <li className="flex items-start gap-2">
+                  <i className="mt-0.5 fas fa-map-marker-alt" />
+                  <span>Morocco – Nationwide delivery</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <i className="mt-0.5 fas fa-envelope" />
+                  <a href="mailto:maxsportmx@gmail.com" className="hover:text-emerald-400">
+                    maxsportmx@gmail.com
+                  </a>
+                </li>
+                <li className="flex items-start gap-2">
+                  <i className="mt-0.5 fab fa-whatsapp" />
+                  <span>+212 6 xx xx xx xx</span>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h3
+                className="mb-3 text-lg font-semibold text-white"
+                style={{ fontFamily: "Oswald, system-ui, sans-serif" }}
+              >
+                Newsletter
+              </h3>
+              <p className="mb-3 text-sm text-slate-400">
+                Receive our exclusive offers and new drops.
+              </p>
+              <form
+                className="flex max-w-xs overflow-hidden rounded-md bg-neutral-900"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  alert("Thank you! You are subscribed to Max Sport offers.");
+                }}
+              >
+                <input
+                  type="email"
+                  required
+                  placeholder="Your email..."
+                  className="flex-1 bg-transparent px-3 py-2 text-xs text-slate-100 placeholder:text-slate-500 focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  className="bg-emerald-600 px-4 text-xs font-bold uppercase tracking-wide text-white hover:bg-emerald-500"
+                >
+                  OK
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <div className="mt-8 border-t border-neutral-800 pt-4 text-center text-xs text-slate-500">
+            <p>
+              &copy; 2026 Max Sport. All rights reserved. Supervised by Mohamed, Charaf Eddine, Adam.
+            </p>
+          </div>
+        </div>
+      </footer>
+
+      {/* Floating WhatsApp button */}
+      <a
+        href={`https://wa.me/${WHATSAPP_NUMBER}`}
+        target="_blank"
+        rel="noreferrer"
+        className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500 text-3xl text-white shadow-lg shadow-emerald-500/50 transition hover:scale-105 hover:bg-emerald-400"
+      >
+        <i className="fab fa-whatsapp" />
+      </a>
+
+      {/* Order modal */}
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 px-4"
+          onClick={closeOrder}
+        >
+          <div
+            className="relative w-full max-w-md rounded-xl bg-white p-6 shadow-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              className="absolute right-4 top-3 text-2xl text-slate-500 hover:text-slate-700"
+              onClick={closeOrder}
+              aria-label="Close order form"
+            >
+              &times;
+            </button>
+            <h2
+              className="mb-4 text-center text-2xl font-bold text-neutral-900"
+              style={{ fontFamily: "Oswald, system-ui, sans-serif" }}
+            >
+              Complete Your Order
+            </h2>
+
+            <form onSubmit={handleSubmit} className="space-y-3 text-sm">
+              <div>
+                <label className="mb-1 block font-semibold text-slate-800">Product</label>
+                <input
+                  type="text"
+                  value={selectedProduct ?? ""}
+                  readOnly
+                  className="w-full rounded-md border border-slate-200 bg-slate-100 px-3 py-2 text-sm text-slate-800"
+                />
+              </div>
+
+              <div>
+                <label className="mb-1 block font-semibold text-slate-800">Size</label>
+                <select
+                  name="size"
+                  required
+                  className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-800"
+                >
+                  <option value="S">S</option>
+                  <option value="M">M</option>
+                  <option value="L">L</option>
+                  <option value="XL">XL</option>
+                  <option value="XXL">XXL</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="mb-1 block font-semibold text-slate-800">Full name</label>
+                <input
+                  type="text"
+                  name="fullName"
+                  required
+                  placeholder="Your name"
+                  className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400"
+                />
+              </div>
+
+              <div>
+                <label className="mb-1 block font-semibold text-slate-800">Phone</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  required
+                  placeholder="06..."
+                  className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400"
+                />
+              </div>
+
+              <div>
+                <label className="mb-1 block font-semibold text-slate-800">City</label>
+                <input
+                  type="text"
+                  name="city"
+                  required
+                  placeholder="Casablanca, Rabat..."
+                  className="w-full rounded-md border border-slate-200 px-3 py-2 text-sm text-slate-800 placeholder:text-slate-400"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="mt-2 w-full rounded-md bg-emerald-600 px-4 py-2.5 text-xs font-bold uppercase tracking-wide text-white shadow-sm transition hover:bg-emerald-500"
+              >
+                Confirm Order (Cash on Delivery)
+              </button>
+
+              <p className="mt-1 text-center text-[11px] text-slate-500">
+                Your order details will be sent directly to our WhatsApp so we can confirm with you.
+              </p>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Tailwind keyframes for marquee */}
+      <style>{`
+        @keyframes marquee {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+      `}</style>
+    </div>
+  );
+}

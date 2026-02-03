@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Max Sport - Sports Clothing in Morocco</title>
+    <meta name="description" content="Sale of jerseys and sports clothing in Morocco. Real Madrid, Barça, City. Payment on delivery.">
+
+    <!-- Google Fonts (Modern and Sporty) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- VARIABLES & RESET --- */
+        :root {
+            --primary: #11571b; /* Rouge dynamique sport */
+            --secondary: #111111; /* Noir profond */
+            --accent: #FFD700; /* Or pour les champions */
+            --light: #f4f4f4;
+            --text-dark: #333;
+            --text-light: #fff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--light);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Oswald', sans-serif;
+            text-transform: uppercase;
+        }
+
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* --- HEADER & NAV --- */
+        header {
+            background-color: var(--secondary);
+            color: var(--text-light);
+            padding: 1rem 5%;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--text-light);
+            letter-spacing: 2px;
+        }
+        .logo span { color: var(--primary); }
+
+        nav ul {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav ul li a:hover { color: var(--primary); }
+
+        .header-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .lang-switch select {
+            background: transparent;
+            color: white;
+            border: 1px solid #555;
+            padding: 5px;
+            border-radius: 4px;
+        }
+
+        .btn-cta {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        .btn-cta:hover { background-color: #e7340c; transform: scale(1.05); }
+
+        /* Mobile Menu Icon */
+        .menu-toggle { display: none; font-size: 1.5rem; cursor: pointer; }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1518091043644-c1d4457512c6?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding-top: 60px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        /* --- CLUBS SECTION --- */
+        .clubs-bar {
+            background: var(--secondary);
+            padding: 20px 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .clubs-container {
+            display: inline-block;
+            animation: slide 20s linear infinite;
+        }
+        .clubs-container img {
+            height: 50px;
+            margin: 0 30px;
+            filter: grayscale(100%);
+            transition: 0.3s;
+        }
+        .clubs-container img:hover { filter: grayscale(0%); }
+
+        @keyframes slide {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* --- PRODUCTS SECTION --- */
+        .products { padding: 3rem 5%; }
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--secondary);
+        }
+        .section-title span { color: var(--primary); border-bottom: 3px solid var(--primary); }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: 0.3s;
+            position: relative;
+            height: 480px;
+        }
+
+        .product-card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+
+        .badge {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--accent);
+            color: var(--secondary);
+            padding: 5px 10px;
+            font-weight: bold;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            background-color: #eee;
+        }
+
+        .product-info { padding: 1.5rem; text-align: center; min-height: 160px; display: flex; flex-direction: column; justify-content: space-between; }
+        .product-title { font-size: 1.2rem; margin-bottom: 0.5rem; font-weight: bold; }
+        .product-price { color: var(--primary); font-size: 1.3rem; font-weight: 900; margin-bottom: 1rem; }
+
+        .btn-buy {
+            display: inline-block;
+            width: 100%;
+            padding: 10px;
+            background: var(--secondary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-buy:hover { background: var(--primary); }
+
+        /* --- ORDER FORM (MODAL) --- */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px; right: 15px;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        /* --- WHATSAPP BUTTON --- */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25d366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            z-index: 1500;
+        }
+        .whatsapp-float:hover { background-color: #128c7e; transform: scale(1.1); }
+
+        /* --- FOOTER --- */
+        footer {
+            background: var(--secondary);
+            color: #aaa;
+            padding: 4rem 5% 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-col h3 { color: white; margin-bottom: 1.5rem; }
+        .footer-col ul li { margin-bottom: 0.8rem; }
+        .footer-col ul li a:hover { color: var(--primary); }
+
+        .social-links a {
+            display: inline-block;
+            width: 40px; height: 40px;
+            background: #333;
+            color: white;
+            text-align: center;
+            line-height: 40px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .social-links a:hover { background: var(--primary); }
+
+        .newsletter-form { display: flex; }
+        .newsletter-form input { padding: 10px; width: 100%; border: none; border-radius: 5px 0 0 5px; }
+        .newsletter-form button { padding: 10px; background: var(--primary); color: white; border: none; border-radius: 0 5px 5px 0; cursor: pointer; }
+
+        .copyright {
+            text-align: center;
+            border-top: 1px solid #333;
+            padding-top: 2rem;
+            font-size: 0.9rem;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            nav ul { display: none; } /* To simplify the code, mobile menu hidden by default */
+            .menu-toggle { display: block; }
+            .hero h1 { font-size: 2.5rem; }
+            .header-actions { display: none; } /* Mobile simplification */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="logo">MAX<span>SPORT</span></div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Shop</a></li>
+                <li><a href="#clubs">Clubs</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions">
+            <div class="lang-switch">
+                <select>
+                    <option value="fr">FR</option>
+                    <option value="ar">AR</option>
+                    <option value="en">EN</option>
+                </select>
+            </div>
+            <a href="#products" class="btn-cta">Order</a>
+        </div>
+        <div class="menu-toggle"><i class="fas fa-bars"></i></div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+        <h1>Wear the Glory</h1>
+        <p>Official uniforms of the greatest European clubs. Premium quality, delivery everywhere in Morocco.</p>
+        <a href="#products" class="btn-cta" style="font-size: 1.2rem; padding: 15px 40px;">View the 2026 Collection</a>
+    </section>
+
+    <!-- CLUB LOGOS (Animation) -->
+    <div class="clubs-bar" id="clubs">
+        <div class="clubs-container">
+            <!-- Using placeholder images for example. Replace with official logos -->
+            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/56/Real_Madrid_CF.svg/1200px-Real_Madrid_CF.svg.png" alt="Real Madrid">
+            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/4/47/FC_Barcelona_%28crest%29.svg/1200px-FC_Barcelona_%28crest%29.svg.png" alt="Barça">
+            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/e/eb/Manchester_City_FC_badge.svg/1200px-Manchester_City_FC_badge.svg.png" alt="Man City">
+            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a7/Paris_Saint-Germain_F.C..svg/1200px-Paris_Saint-Germain_F.C..svg.png" alt="PSG">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/FC_Bayern_M%C3%BCnchen_logo_%282017%29.svg/1200px-FC_Bayern_M%C3%BCnchen_logo_%282017%29.svg.png" alt="Bayern">
+            <img src="https://upload.wikimedia.org/wikipedia/fr/9/96/Logo_Wydad_Athletic_Club.png" alt="Wydad Athletic Club">
+            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/56/Real_Madrid_CF.svg/1200px-Real_Madrid_CF.svg.png" alt="Real Madrid">
+           
+        </div>
+    </div>
+
+    <!-- SHOP -->
+    <section class="products" id="products">
+        <h2 class="section-title">Our <span>Best Sellers</span></h2>
+        
+        <div class="product-grid">
+            <!-- Produit 1 -->
+            <div class="product-card">
+                <span class="badge">NEW</span>
+                <img src="RMCFMZ0905_01.webp" alt="Real Madrid Jersey" class="product-img">
+                <div class="product-info">
+                    <h3 class="product-title">  shirt Real Madrid 2026</h3>
+                    <p class="product-price">300 DH</p>
+                    <button class="btn-buy" onclick="openOrder('Real Madrid 2026')">Order Now</button>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card">
+                <img src="maillot-fc-barcelone-domicile-2025-202620251212164053693c3785847d2.jpg" alt="FC Barcelona Jersey" class="product-img">
+                <div class="product-info">
+                    <h3 class="product-title">  shirt FC Barcelona 2026</h3>
+                    <p class="product-price">250 DH</p>
+                    <button class="btn-buy" onclick="openOrder('FC Barcelona 2026')">Order Now</button>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+                <span class="badge">-20% PROMO</span>
+                <img src="70.webp" alt="Morocco Jersey" class="product-img">
+                <div class="product-info">
+                    <h3 class="product-title">FC Barcelona Parka Jacket</h3>
+                    <p class="product-price">600 DH <s style="font-size:0.8rem; color:#999">750 DH</s></p>
+                    <button class="btn-buy" onclick="openOrder('FC Barcelona Parka Jacket')">Order Now</button>
+                </div>
+            </div>
+
+             <!-- Product 4 -->
+             <div class="product-card">
+                <img src="MC200.avif" alt="Manchester City Tracksuit" class="product-img">
+                <div class="product-info">
+                    <h3 class="product-title">  shirt Manchester City 2026</h3>
+                    <p class="product-price">250 DH</p>
+                    <button class="btn-buy" onclick="openOrder('Manchester City 2026')">Order Now</button>
+                </div>
+            </div>
+            <!-- Product 5 -->
+            <div class="product-card">
+                <img src="bc.jpg" alt="Bayern Munich Jersey" class="product-img">
+                <div class="product-info">
+                    <h3 class="product-title">  shirt Bayern Munich 2026</h3>
+                    <p class="product-price">250 DH <s style="font-size:0.8rem; color:#999">300 DH</s></p>
+                    <button class="btn-buy" onclick="openOrder('Bayern Munich 2026')">Order Now</button>
+                </div>
+            </div>
+         <!-- Product 6 -->
+         <div class="product-card">
+            <img src="psg-nike-home-stadium-shirt-2025-26_ss5_p-202333088+pv-2+u-0l5g5cgim1ikkcuoqp61+v-kubcmmwa6ivfruwd4ydz.jpg" alt="PSG Jersey" class="product-img">
+            <div class="product-info">
+                <h3 class="product-title">  shirt Paris Saint-Germain 2026</h3>
+                <p class="product-price">250 DH <s style="font-size:0.8rem; color:#999">300 DH</s></p>
+                <button class="btn-buy" onclick="openOrder('Paris Saint-Germain 2026')">Order Now</button>
+            </div>
+         </div>
+         <!-- Product 7 -->
+         <div class="product-card">
+            <img src="wydad1.jpg" alt="Wydad Jersey" class="product-img">
+            <div class="product-info">
+                <h3 class="product-title">  shirt Wydad 2026</h3>
+                <p class="product-price">250DH <s style="font-size:0.8rem; color:#999">300 DH</s></p>
+                <button class="btn-buy" onclick="openOrder('Wydad 2026')">Order Now</button>
+            </div>
+         </div>
+         <!-- Product 8 -->
+         <div class="product-card">
+            <img src="100.webp" alt="Anthem Jacket 25/26 Navy Blue Kids" class="product-img">
+            <div class="product-info">
+                <h3 class="product-title">Anthem Jacket 26 Navy Blue Kids</h3>
+                <p class="product-price">450 DH <s style="font-size:0.8rem; color:#999">600 DH</s></p>
+                <button class="btn-buy" onclick="openOrder('Anthem Jacket 25/26 Navy Blue Kids')">Order Now</button>
+            </div>
+       
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" style="background-color: white; padding: 3rem 5%; display: flex; flex-wrap: wrap; align-items: center; gap: 2rem;">
+        <div style="flex: 1; min-width: 300px;">
+            <img src="gpt-image-1.5_b_logo_MX (1).png" alt="About Max Sport" style="width: 60%; border-radius: 10px;">
+        </div>
+        <div style="flex: 1; min-width: 300px;">
+            <h2 style="font-size: 2rem; margin-bottom: 1rem; color: var(--secondary);">Who is <span style="color: var(--primary);">Max Sport?</span></h2>
+            <p style="margin-bottom: 1rem; line-height: 1.6;">Founded on January 1, 2026, Max Sport is a Moroccan brand specializing in football equipment and clothing. It establishes itself as a reference for all sports enthusiasts seeking quality, style, and comfort. Max Sport carefully selects the best equipment inspired by major European clubs to offer its customers modern, high-performance, and accessible products. Our mission is to make football passion accessible to everyone by combining authentic products, competitive prices, and reliable customer service.</p>
+            <ul style="margin-bottom: 1.5rem;">
+                <li><i class="fas fa-check-circle" style="color: var(--primary); margin-right: 10px;"></i> Fast delivery everywhere in Morocco</li>
+                <li><i class="fas fa-check-circle" style="color: var(--primary); margin-right: 10px;"></i> Payment on delivery</li>
+                <li><i class="fas fa-check-circle" style="color: var(--primary); margin-right: 10px;"></i> Guaranteed quality</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-col">
+                <h3>Max Sport</h3>
+                <p>Your #1 destination for sports equipment in Morocco.</p>
+                <div class="social-links" style="margin-top: 1rem;">
+                    <a href="https://instagram.com/max.sport.2026" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#products">New Arrivals</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Contact</h3>
+                <ul>
+                    <li><i class="fas fa-map-marker-alt"></i> Morocco, National Delivery</li>
+                    <li><i class="fas fa-envelope"></i> maxsportmx@gmail.com</li>
+                    <li><i class="fab fa-whatsapp"></i> +212 605-239685</li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Newsletter</h3>
+                <p>Receive our exclusive offers.</p>
+                <form class="newsletter-form" style="margin-top: 10px;">
+                    <input type="email" placeholder="Your email...">
+                    <button type="submit">OK</button>
+                </form>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2026 Max Sport. All rights reserved. Supervised by Mohamed, Charaf Eddine, Adam.</p>
+        </div>
+    </footer>
+
+    <!-- WHATSAPP FLOAT -->
+    <a href="https://wa.me/212605239685" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- ORDER MODAL -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeOrder()">&times;</span>
+            <h2 style="text-align: center; margin-bottom: 20px;">Complete Your Order</h2>
+            <form id="checkoutForm">
+                <div class="form-group">
+                    <label>Product</label>
+                    <input type="text" id="productName" readonly style="background: #eee;">
+                </div>
+                <div class="form-group">
+                    <label>Size</label>
+                    <select id="productSize">
+                        <option>S</option>
+                        <option>M</option>
+                        <option>L</option>
+                        <option>XL</option>
+                        <option>XXL</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="fullName" placeholder="Your name" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="phoneNumber" placeholder="06..." required>
+                </div>
+                <div class="form-group">
+                    <label>City</label>
+                    <input type="text" id="city" placeholder="Casablanca, Rabat..." required>
+                </div>
+                <button type="submit" class="btn-buy" style="background: var(--primary);">Confirm (Payment on Delivery)</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Order modal management
+        const modal = document.getElementById('orderModal');
+        const productInput = document.getElementById('productName');
+
+        function openOrder(product) {
+            productInput.value = product;
+            modal.style.display = 'flex';
+        }
+
+        function closeOrder() {
+            modal.style.display = 'none';
+        }
+
+        // Close modal if clicked outside
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Order submission to WhatsApp
+        document.getElementById('checkoutForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const product = document.getElementById('productName').value;
+            const size = document.getElementById('productSize').value;
+            const name = document.getElementById('fullName').value;
+            const phone = document.getElementById('phoneNumber').value;
+            const city = document.getElementById('city').value;
+
+            const message = `New Order:\nProduct: ${product}\nSize: ${size}\nName: ${name}\nPhone: ${phone}\nCity: ${city}\nPayment on Delivery`;
+            const whatsappUrl = `https://wa.me/212605239685?text=${encodeURIComponent(message)}`;
+
+            window.open(whatsappUrl, '_blank');
+            closeOrder();
+        });
+
+        // Mobile Menu Toggle
+        document.querySelector('.menu-toggle').addEventListener('click', function() {
+            const nav = document.querySelector('nav ul');
+            if(nav.style.display === 'flex') {
+                nav.style.display = 'none';
+            } else {
+                nav.style.display = 'flex';
+                nav.style.flexDirection = 'column';
+                nav.style.position = 'absolute';
+                nav.style.top = '70px';
+                nav.style.left = '0';
+                nav.style.width = '100%';
+                nav.style.background = '#111';
+                nav.style.padding = '20px';
+            }
+        });
+    </script>
+</body>
+</html>
